@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Storyteller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        #story {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            height: 500px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        #user-input {
+            display: flex;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4285f4;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Storyteller</h1>
+    <div id="story"></div>
+    <div id="user-input">
+        <input type="text" id="message" placeholder="Type your message here..." autofocus />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("message");
+            const storyDiv = document.getElementById("story");
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Display user message
+            storyDiv.innerHTML += `\nYou: ${message}\n`;
+            input.value = "";
+
+            const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+            storyDiv.innerHTML += `\n${data.response}\n`;
+            storyDiv.scrollTop = storyDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
