@@ -1,6 +1,4 @@
 ✅ README.md
-Place this in the root as well:
-
 # Stoy-Bot
 
 Story Bot is an experimental, AI-powered interactive storytelling engine designed for web browsers. Users co-create a story with AI-driven characters in real-time, choosing the characters, setting the scene, and interacting via text or voice.
